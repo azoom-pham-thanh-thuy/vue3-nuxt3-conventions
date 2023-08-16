@@ -3,8 +3,11 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "start": "nuxt start",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "staging:delete-tag": "git fetch --tags && git push origin --delete $(git tag -l 'vue3-nuxt3-conventions-*') || true && git fetch origin --prune 'refs/tags/*:refs/tags/*'",
+    "staging:deploy": "yarn staging:delete-tag && TAG=`echo vue3-nuxt3-conventions-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG"
   },
   "devDependencies": {
     "@nuxt/content": "^2.7.2",
