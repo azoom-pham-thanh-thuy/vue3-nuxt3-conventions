@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const locales = ref<string[]>(["en", "vi"]);
+const locales = ref<string[]>(["en", "vi", "jp"]);
 const { locale, existedLocale } = useLocale();
 
 function changeLanguage(event: any) {
