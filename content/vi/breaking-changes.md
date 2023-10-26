@@ -145,7 +145,7 @@ description: 'Breaking changes'
   <ChildComponent v-model:title="pageTitle" v-model:content="pageContent" />
   ```
 
-- B2.6. Thứ tự viết **binding** sẽ ảnh hưởng đến kết quả (viết sau ăn tất)
+- B2.6. Thứ tự viết **binding** sẽ ảnh hưởng đến kết quả (Vue sẽ luôn lấy giá trị của **binding** viết sau)
   ```html
   <p id="x" v-bind="{ id: 'y' }">// Vue 2: id="x", Vue 3: id="y"</p>
   ```
@@ -165,7 +165,7 @@ mounted() {
 }
 ```
 
-- Với cơ chế Vue 2 sử dụng kiểu kiểu `Object.defineProperty` để bắt sự kiện thay đổi thuộc tính, và chỉ xảy ra khi lúc Vue.set còn hoạt động (component được tạo) -> nên nếu mình update vào mảng, property của Object lúc mounted thì là đi luôn (watch deep là ví dụ cụ thể). Như ví dụ trên là cụ hiện ra màn hình trống trơn.
+- Với cơ chế Vue 2 sử dụng kiểu `Object.defineProperty` để bắt sự kiện thay đổi thuộc tính, và chỉ xảy ra khi lúc Vue.set còn hoạt động (component được tạo) -> nên nếu mình update mảng (thêm giá trị vào mảng hoặc xoá giá trị khỏi mảng), property của Object lúc mounted thì nó sẽ không phát hiện ra sự thay đổi (watch deep là ví dụ cụ thể). Như ví dụ trên mặc dù trong mảng có giá trị `Azoom` nhưng trên màn hình lại không hiển thị.
 
   ```js
   // Giải pháp ở Vue 2 là:
@@ -196,10 +196,10 @@ mounted() {
 
 **B4. Composables: Kẻ thay thế mixins có thể là helpers/utils**
 
-- Sinh ra trong trường hợp mà mình muốn chia sẻ các `stateful logic` hoặc `logic` giữa các Component với nhau: format date, format yen, tracking event,...
+- Nó được sinh ra trong trường hợp mà mình muốn chia sẻ các `stateful logic` hoặc `logic` giữa các Component với nhau, vd: format date, format yen, tracking event,...
 - Trước đây chúng ta có công cụ để xử lý các vấn đề này như mixins, helpers/utils. Nhưng càng ngày thì các công cụ này càng lộ ra nhiều vấn đề như:
   - Naming merge: Các biến và hàm bên trong mixin bị trùng tên với biến và hàm bên ngoài Component sử dụng nó => Vue đã có `merge strategy` nhưng vẫn sẽ gây khó khăn khi debug
-  - Phụ thuộc ngầm: Mixins và component sử dụng nó ko có mối quan hệ thứ bậc vì thế mà component có thể sử dụng mọi thuộc tính trong mixins và ngược lại => cẩn trọng khi refactor Component và đổi các biến trong Mixins
+  - Phụ thuộc ngầm: Mixins và component sử dụng nó không có mối quan hệ thứ bậc vì thế mà component có thể sử dụng mọi thuộc tính trong mixins và ngược lại => cẩn trọng khi refactor Component và đổi các biến trong Mixins
   - Ví dụ minh hoạ cụ thể hơn([Xem thêm](https://azoom.slack.com/archives/GV1L7LQJW/p1671437071682909)).  
   :point_right: Vì thế Composables được sinh ra để xử lý các vấn đề còn tồn đọng này
 

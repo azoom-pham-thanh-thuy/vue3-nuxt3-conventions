@@ -7,7 +7,7 @@ description: 'Breaking changes'
 
 **B1. CompositionAPI:**
 
-- Optional API (こふう)
+- Optional API (変更前)
 
   ```vue
   <template>
@@ -30,7 +30,7 @@ description: 'Breaking changes'
   </script>
   ```
 
-- Composition API (しんぷう)
+- Composition API (変更後)
 
   ```vue
   <script setup lang="ts">
@@ -50,7 +50,7 @@ description: 'Breaking changes'
 
 :point_right: `Big changing` 慣れるのに時間がかかります: (例えばライフサイクルフック、ライティングマインドセット、リファレンス、リアクティブなど)。
 
-**B2. 一部の通知の変更点:**
+**B2. 留意点:**
 
 - B2.1. props の定義には `defineProps()` を使用する必要があります。
 
@@ -92,7 +92,7 @@ description: 'Breaking changes'
   })
   ```
 
-- B2.2. Declaring events emit
+- B2.2. Event Emitterの作成
 
   ```html
   // Vue 2
@@ -166,7 +166,7 @@ mounted() {
 }
 ```
 
-- Vue 2の仕組みでは、`Object.defineProperty`を使用してプロパティ変更イベントをキャッチしますが、これはVue.setがアクティブである限り（componentが作成されている状態）、のみ機能します。➡️ 配列やオブジェクトのプロパティを更新しても、mounted状態のコンポーネントでは変更が検知されません（watch deepは明らかな例です）。例の通り、完全に空の画面になってしまいます。
+- Vue 2の仕組みでは、`Object.defineProperty`を使用してプロパティ変更イベントをキャッチしますが、これはVue.setがアクティブである限り（componentが作成されている状態）、のみ機能します。➡️ 配列やオブジェクトのプロパティを更新しても、mounted状態のコンポーネントでは変更が検知されません（watch deepは明らかな例です）。例の通り、Azoom配列があったのに、画面に表示されてなかったです。
 
   ```js
   // Giải pháp ở Vue 2 là:
@@ -195,14 +195,14 @@ mounted() {
   </template>
   ```
 
-**B4. Composables: mixins の代替手段として、helpers/utilities を使うことができます:**
+**B4. Composables: mixinsを代わりに、helpers/utilities を使うことができます:**
 
-- コンポーネント間で`stateful logic`や`logic`を共有したい場合のシチュエーションですね。Components: format date, format yen, tracking event,...
+- コンポーネント間でformat date, format yen, tracking event,...などの`stateful logic`や`logic`を共有したい場合のシチュエーションです。
 - その前は、mixinsやhelpers/utilsなどのツールを使ってこれらの問題を解決していました。しかし、現在ではこれらのツールにいくつかの問題があります:
   - Naming merge: mixin 内の変数や関数は、それらを使用している Component の外部の変数や関数と重複した名前になります => Vue には `merge strategy` がありますが、デバッグ時には依然として迷惑です。
   - Implicit Dependency: Mixins とそれらを使用している components には階層関係がないため、コンポーネントは mixins 内の任意のプロパティにアクセスしたり、その逆も可能です => Component をリファクタリングし、mixins 内の変数を変更する際は注意してください。
   - For more examples([More](https://azoom.slack.com/archives/GV1L7LQJW/p1671437071682909)).  
-  :point_right: したがって、これらの問題を解決するために Composables が作成されました。
+  :point_right: 上記の問題を解決するために Composables が作成されました。
 
   ```vue
   <script setup>
@@ -216,7 +216,7 @@ mounted() {
   </script>
   ```
 
-- Mixinsに比べて解決された問題と比較して、以下のような問題が解決されました:
+- Mixinsに比べて以下のような問題が解決されました:
   - 古いMixinスタイルで全てをインポートするのとは対照的に、クリアなインポートソース（Composableから）が可能になりました。
   - インポート時に簡単に競合している変数や関数の名前を変更できます。
   - もはや暗黙の依存関係はありません => 変数はより明示的に Composable に渡されます。
