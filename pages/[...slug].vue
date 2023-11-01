@@ -1,18 +1,9 @@
 <script lang="ts" setup>
 import { useLocale } from '~/composables/locale'
 const route = useRoute()
-const { locale, existedLocale } = useLocale()
-
-console.log(66, existedLocale.value)
-
-watch(() => locale.value, 
-() => {
-  console.log(8888888, locale.value, existedLocale.value)
-  // $content.forceUpdate()
-  // locale.value = existedLocale.value
-})
-
+const { locale } = useLocale()
 </script>
+
 <template>
   <div class="page-wrap">
     <AzHeader class="fixed top-0 left-0 w-full border-b" />

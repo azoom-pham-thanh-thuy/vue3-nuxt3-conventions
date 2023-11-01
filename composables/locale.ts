@@ -5,9 +5,7 @@ const existedLocale = ref<string>(defaultLocale);
 export function useLocale() {
   onMounted(() => {
     existedLocale.value = localStorage.getItem("lang") || defaultLocale;
-    if (existedLocale.value) {
-      locale.value = existedLocale.value || defaultLocale;
-    }
+    locale.value = existedLocale.value;
   });
 
   return {
